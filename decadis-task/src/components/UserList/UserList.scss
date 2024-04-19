@@ -1,0 +1,98 @@
+.user-list {
+    margin-top: 20px;
+  }
+  
+  .user-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .create-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .create-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .dialog-actions {
+    .update-button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+  
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    margin: 0px;
+  }
+
+  th {
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  
+  .edit-button {
+    background-color: #3182CE; 
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+    text-decoration: none;
+    display: inline-block; 
+  }
+  
+  .edit-button:hover {
+    background-color: #2d73b4; 
+  }
+  
+  .delete-button {
+    background-color: #CE3131;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+  
+  .delete-button:hover {
+    background-color: #a82929; 
+  }
+  
+  .run-action-button {
+    background-color: #3B9D18;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .run-action-button:hover {
+    background-color: #2e7a12; 
+  }
