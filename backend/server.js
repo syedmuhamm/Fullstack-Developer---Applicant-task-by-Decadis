@@ -84,6 +84,23 @@ app.delete('/users/:id', (req, res) => {
   });
 });
 
+// endpoint for handling action requests
+app.post('/action', (req, res) => {
+  const { user, action } = req.body;
+
+  // Check if the user is allowed to execute the action
+  // This is a placeholder logic, replace it with your actual permission logic
+  const isAllowed = true; // Example: Assuming all users are allowed to execute any action
+
+  if (isAllowed) {
+    // Execute the action here (you can add your logic)
+    console.log(`Action '${action}' executed successfully for user '${user.firstName} ${user.lastName}'.`);
+    res.status(200).json({ message: `Action '${action}' executed successfully for user '${user.firstName} ${user.lastName}'.` });
+  } else {
+    res.status(401).json({ error: `User '${user.firstName} ${user.lastName}' is not allowed to execute the action '${action}'.` });
+  }
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

@@ -15,6 +15,13 @@ interface EditUserDialogProps {
   onEdit: () => void;
 }
 
+/**
+ * Component: EditUserDialog
+ * Description: Dialog for editing user details, including HTTP PUT request for updates.
+ * 
+ * Uses Material-UI components and axios for HTTP requests.
+ */
+
 const EditUserDialog: React.FC<EditUserDialogProps> = ({ user, open, onClose, onEdit }) => {
   const [updatedUser, setUpdatedUser] = useState<UserListProps | null>(user);
 
@@ -25,8 +32,8 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({ user, open, onClose, on
     setUpdatedUser((prevState: UserListProps | null) => ({
       id: prevState?.id || 0, // defaulting to 0 if it's undefined
       firstName: prevState?.firstName || '', //defaulting to an empty string if it's undefined
-      lastName: prevState?.lastName || '', //defaulting to an empty string if it's undefined
-      email: prevState?.email || '', //defaulting to an empty string if it's undefined
+      lastName: prevState?.lastName || '',
+      email: prevState?.email || '', 
       [name]: value,
     }));
   };

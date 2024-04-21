@@ -14,6 +14,13 @@ interface DeleteUserDialogProps {
   onDelete: () => void;
 }
 
+/**
+ * Component: DeleteUserDialog
+ * Description: Renders a dialog to confirm deletion of a user. 
+ * Displays user details and provides options to cancel or confirm deletion. 
+ * 
+ * Uses Material-UI components for dialog layout and axios for making HTTP delete requests.
+ */
 const DeleteUserDialog: React.FC<DeleteUserDialogProps> = ({ user, open, onClose, onDelete }) => {
   // Handler for delete action
   const handleDeleteAction = async () => {

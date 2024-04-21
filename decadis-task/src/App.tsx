@@ -7,8 +7,6 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<UserListPage />} />
-          {/* <Route path="/create-user" element={<CreateUserPage />} /> */}
-          {/* <Route path="/user-details/:userId" element={<UserDetailsPage />} /> */}
        </Routes>
       </div>
     </Router>

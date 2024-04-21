@@ -5,7 +5,7 @@ import CreateUserDialog from '../Dialogs/CreateUserDialog';
 import DeleteUserDialog from '../Dialogs/DeleteUserDialog';
 import RunActionForUserDialog from '../Dialogs/RunActionDialog';
 import axios from 'axios';
-
+import useDialog from '../CustomHooks/useDialog';
 
 export interface UserListProps {
   id: number;
@@ -14,17 +14,25 @@ export interface UserListProps {
   email: string;
 }
 
-const UserList: React.FC = () => {
+/**
+ * Component: UserList
+ * Description: Renders a list of users with options for editing, deleting, and running actions. 
+ * Utilizes Axios for fetching user data and managing CRUD operations. 
+ * Integrates custom dialogs for user interactions.
+ */
 
+const UserList: React.FC = () => {
   const [users, setUsers] = useState<UserListProps[]>([]);
   const [selectedUser, setSelectedUser] = useState<UserListProps | null>(null);
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [isRunActionDialogOpen, setIsRunActionDialogOpen] = useState(false);
 
-  
-  const fetchUsers = async () => {
+  // Integrate custom hook for managing dialog state
+  const createDialog = useDialog();
+  const editDialog = useDialog();
+  const deleteDialog = useDialog();
+  const runActionDialog = useDialog();
+
+// Gets user information from the server, updates what is shown on the page, and lets us know with console error.
+const fetchUsers = async () => {
     try {
       const response = await axios.get('http://localhost:5000/users');
       setUsers(response.data);
@@ -39,28 +47,29 @@ const UserList: React.FC = () => {
 
   const handleEditButtonClick = (user: UserListProps) => {
     setSelectedUser(user);
-    setIsEditDialogOpen(true);
+    editDialog.openDialog(); // Open edit dialog
   };
   
   const handleDeleteButtonClick = (user: UserListProps) => {
     setSelectedUser(user);
-    setIsDeleteDialogOpen(true);
+    deleteDialog.openDialog(); // Open delete dialog
   };
 
   const handleRunActionButtonClick = (user: UserListProps) => {
     setSelectedUser(user);
-    setIsRunActionDialogOpen(true);
+    runActionDialog.openDialog(); // Open run action dialog
   };
 
   const handleCloseModal = () => {
     setSelectedUser(null);
-    setIsCreateDialogOpen(false);
-    setIsEditDialogOpen(false);
-    setIsDeleteDialogOpen(false);
-    setIsRunActionDialogOpen(false);
+    createDialog.closeDialog(); // Close create dialog
+    editDialog.closeDialog(); // Close edit dialog
+    deleteDialog.closeDialog(); // Close delete dialog
+    runActionDialog.closeDialog(); // Close run action dialog
     fetchUsers(); // Refetch users after closing any dialog
   };
   
+  // Handlers for edit, delete, and run action
   const handleEdit = async () => {
     handleCloseModal();
   };
@@ -77,39 +86,38 @@ const UserList: React.FC = () => {
     <div className="user-list">
       <div className="user-list-header">
         <h2>User List</h2>
-        <button className="create-button" onClick={() => setIsCreateDialogOpen(true)}>Create</button>
+        <button className="create-button" onClick={createDialog.openDialog}>Create</button>
       </div>
       <table>
         <thead>
           <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th> Name</th>
             <th>Email</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-        {users && users.map((user) => (
-          <tr key={user.id}>
-            <td>{user.firstName}</td>
-            <td>{user.lastName}</td>
-            <td>{user.email}</td>
-            <td>
-              <button onClick={() => handleEditButtonClick(user)} className="edit-button">Edit</button>
-              <button onClick={() => handleDeleteButtonClick(user)} className="delete-button" >Delete</button>
-              <button onClick={()=> handleRunActionButtonClick(user)} className="run-action-button">Run action</button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
+          {users && users.map((user) => (
+            <tr key={user.id}>
+              <td>{user.firstName} {user.lastName}</td>
+              <td>{user.email}</td>
+              <td>
+                <button onClick={() => handleEditButtonClick(user)} className="edit-button">Edit</button>
+                <button onClick={() => handleDeleteButtonClick(user)} className="delete-button" >Delete</button>
+                <button onClick={() => handleRunActionButtonClick(user)} className="run-action-button">Run action</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
       
-      <CreateUserDialog open={isCreateDialogOpen} onClose={handleCloseModal} />
+      {/* Render dialogs */}
+      <CreateUserDialog open={createDialog.isOpen} onClose={handleCloseModal} />
       {selectedUser && (
         <>
-          <EditUserDialog user={selectedUser} open={isEditDialogOpen} onClose={handleCloseModal} onEdit={handleEdit}/>
-          <DeleteUserDialog user={selectedUser} open={isDeleteDialogOpen} onClose={handleCloseModal} onDelete={handleDelete}  />
-          <RunActionForUserDialog user={selectedUser} open={isRunActionDialogOpen} onClose={handleCloseModal} onRunAction={handleRunAction} />
+          <EditUserDialog user={selectedUser} open={editDialog.isOpen} onClose={handleCloseModal} onEdit={handleEdit}/>
+          <DeleteUserDialog user={selectedUser} open={deleteDialog.isOpen} onClose={handleCloseModal} onDelete={handleDelete}  />
+          <RunActionForUserDialog user={selectedUser} open={runActionDialog.isOpen} onClose={handleCloseModal} onRunAction={handleRunAction} />
         </>
       )}
     </div>

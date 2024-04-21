@@ -5,14 +5,20 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import UserDetails from '../UserDetails/UserDetails';
-import { UserListProps } from '../UserList/UserList'; 
 import axios from 'axios';
 
 interface CreateUserDialogProps {
-  // user: UserListProps | null;
   open: boolean;
   onClose: () => void;
 }
+
+/**
+ * Component: CreateUserDialog
+ * Description: This component creates a dialog for adding a new user. It allows users to input first name,
+ * last name, and email, validates the input, and sends a POST request to the server to create the user. 
+ * 
+ * It uses Material-UI components for dialog layout and axios for making HTTP requests.
+ */
 
 const CreateUserDialog: React.FC<CreateUserDialogProps> = ({  open, onClose }) => {
 
