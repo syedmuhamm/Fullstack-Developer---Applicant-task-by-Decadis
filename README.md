@@ -1,6 +1,53 @@
 # Fullstack-Developer---Applicant-task-by-Decadis
 Task for Decadis, as a part of hiring process. 
 
+
+Guide to run this app on another machine locally: 
+
+1. Create Folder Structure:
+   - Create a new folder named `decadis-task`.
+   - Open this folder in your preferred text editor or IDE (e.g., VS Code).
+
+2. Clone Repository:
+   - Open the terminal and clone the repository using the command:
+     git clone https://github.com/syedmuhamm/Fullstack-Developer---Applicant-task-by-Decadis.git .
+
+3. Install Frontend Dependencies:
+   - Navigate to the `frontend` directory.
+   - Run:
+     npm install
+   - Start the frontend:
+     npm start
+
+4. Set Up Backend:
+   - Install XAMPP.
+   - Create a new database named `applicant-task-by-decadis`.
+   - Within this database, create a table named `users` with columns: `id`, `firstName`, `lastName`, `email`, `actions`.
+
+5. Install Backend Dependencies:
+   - Navigate to the `backend` directory.
+   - Run:
+     npm install axios cors express mysql
+   - For devDependencies, run:
+     npm install --save-dev jest nodemon supertest
+
+6. Start Backend Server:
+   - Run:
+     npm start dev
+
+7. Install Node.js:
+   - Download and install Node.js if not already installed.
+
+8. Testing:
+   - Open another terminal.
+   - Run:
+     npx jest userRoutes.test.js
+
+
+Guide completed! Great :)
+
+Activity while making the app:
+
 18.04.2024
 
 Started the task from frontend, by creating a react app and installing dependencies for typescript, sass, material ui. The plan is to make frontend first, 
@@ -39,4 +86,3 @@ Introduced testing for backend CRUD operations with id.
 Performed testing. 
 
 
-Guide to run this app on another machine locally: 
