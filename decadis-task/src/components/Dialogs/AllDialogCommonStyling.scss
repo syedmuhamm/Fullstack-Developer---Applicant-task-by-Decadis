@@ -1,0 +1,49 @@
+.create-dialog , .edit-dialog, .run-action-dialog, .delete-dialog{
+
+    .css-rnmm7m-MuiPaper-root-MuiDialog-paper { 
+        max-width: 450px; 
+    }
+
+    .dialog-title {
+        font-weight: bold;
+
+        .close-button {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            color: #757575;
+
+            &:hover {
+                color: #000; 
+                background-color: transparent;
+            }
+        }
+    }
+
+    .update-button, .create-button, .run-action-run-button, .delete-button {
+        background-color: #3182CE;
+        color: white;
+    }
+
+    .cancel-button {
+        color: black;
+    }
+
+    .run-action-dialog-content{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .run-action-dialog-label{
+        font-weight: bold;
+    }
+
+    .run-action-dialog-select{
+        margin-top: 20px;
+        padding: 10px;
+        font-size: medium;
+        border: 1px solid rgb(209, 207, 207);
+        border-radius: 6px;
+    }
+}
+

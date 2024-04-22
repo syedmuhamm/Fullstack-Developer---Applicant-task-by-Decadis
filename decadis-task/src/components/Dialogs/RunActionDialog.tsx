@@ -6,6 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { UserListProps } from '../UserList/UserList';
 import axios from 'axios';
+import './AllDialogCommonStyling.scss';
 
 interface RunActionForUserDialogProps {
   user: UserListProps | null;
@@ -43,17 +44,17 @@ const RunActionForUserDialog: React.FC<RunActionForUserDialogProps> = ({ user, o
   
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>Run action</DialogTitle>
-      <DialogContent>
-        <label htmlFor="action">Select action:</label>
-        <select id="action" value={selectedAction} onChange={(e) => setSelectedAction(e.target.value)}>
-            <option value="action">Do some action</option>
+    <Dialog open={open} onClose={onClose} className='run-action-dialog' maxWidth="md" fullWidth>
+      <DialogTitle className='dialog-title'>Run action</DialogTitle>
+      <DialogContent className='run-action-dialog-content'>
+        <label htmlFor="action" className='run-action-dialog-label'>Select action</label>
+        <select id="action" className='run-action-dialog-select' value={selectedAction} onChange={(e) => setSelectedAction(e.target.value)}>
+            <option value="action">Create item</option>
         </select>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleRunAction} className='delete-button'>Run</Button>
+        <Button onClick={onClose} className='cancel-button'>Cancel</Button>
+        <Button onClick={handleRunAction} className='run-action-run-button'>Run</Button>
       </DialogActions>
     </Dialog>
   );

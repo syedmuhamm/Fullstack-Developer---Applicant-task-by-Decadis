@@ -88,28 +88,30 @@ const fetchUsers = async () => {
         <h2>User List</h2>
         <button className="create-button" onClick={createDialog.openDialog}>Create</button>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th> Name</th>
-            <th>Email</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users && users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.firstName} {user.lastName}</td>
-              <td>{user.email}</td>
-              <td>
-                <button onClick={() => handleEditButtonClick(user)} className="edit-button">Edit</button>
-                <button onClick={() => handleDeleteButtonClick(user)} className="delete-button" >Delete</button>
-                <button onClick={() => handleRunActionButtonClick(user)} className="run-action-button">Run action</button>
-              </td>
+      <div className="table-wrapper">
+        <table className='user-table'>
+          <thead>
+            <tr>
+              <th> NAME</th>
+              <th>EMAIL</th>
+              <th></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users && users.map((user) => (
+              <tr key={user.id}>
+                <td>{user.firstName} {user.lastName}</td>
+                <td>{user.email}</td>
+                <td className='action-buttons'>
+                  <button onClick={() => handleEditButtonClick(user)} className="edit-button">Edit</button>
+                  <button onClick={() => handleDeleteButtonClick(user)} className="delete-button" >Delete</button>
+                  <button onClick={() => handleRunActionButtonClick(user)} className="run-action-button">Run action</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       
       {/* Render dialogs */}
       <CreateUserDialog open={createDialog.isOpen} onClose={handleCloseModal} />

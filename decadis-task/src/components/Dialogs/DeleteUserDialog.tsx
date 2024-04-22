@@ -36,13 +36,13 @@ const DeleteUserDialog: React.FC<DeleteUserDialogProps> = ({ user, open, onClose
   };
 
   return (
-    <Dialog open={open} maxWidth="md" fullWidth>
-      <DialogTitle>Delete User</DialogTitle>
+    <Dialog open={open} maxWidth="md" onClose={onClose} fullWidth className='delete-dialog'>
+      <DialogTitle className='dialog-title'>Delete User</DialogTitle>
       <DialogContent>
         <p>Do you really want to delete user {user?.firstName} {user?.lastName}?</p>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose} className='cancel-button'>Cancel</Button>
         <Button onClick={handleDeleteAction} className='delete-button'>Delete</Button>
       </DialogActions>
     </Dialog>

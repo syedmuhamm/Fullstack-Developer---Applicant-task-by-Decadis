@@ -6,6 +6,8 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import UserDetails from '../UserDetails/UserDetails';
 import axios from 'axios';
+import './AllDialogCommonStyling.scss';
+import { IconButton } from '@mui/material';
 
 interface CreateUserDialogProps {
   open: boolean;
@@ -58,14 +60,16 @@ const CreateUserDialog: React.FC<CreateUserDialogProps> = ({  open, onClose }) =
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>Create User</DialogTitle>
+    <Dialog open={open} onClose={onClose} className='create-dialog' maxWidth="md" fullWidth>
+      <DialogTitle className='dialog-title'>Create User
+      <IconButton className='close-button' onClick={onClose}>x</IconButton>
+      </DialogTitle>
       <DialogContent>
         <UserDetails />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleCreateAction} className='update-button'>Create</Button>
+        <Button onClick={onClose} className='cancel-button'>Cancel</Button>
+        <Button onClick={handleCreateAction} className='create-button'>Create</Button>
       </DialogActions>
     </Dialog>
   );

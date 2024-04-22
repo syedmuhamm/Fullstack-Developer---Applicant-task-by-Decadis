@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import UserDetails from '../UserDetails/UserDetails';
 import { UserListProps } from '../UserList/UserList'; // Import UserListProps type
 import axios from 'axios';
+import IconButton from '@mui/material/IconButton';
+import './AllDialogCommonStyling.scss';
 
 interface EditUserDialogProps {
   user: UserListProps | null;
@@ -51,8 +53,10 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({ user, open, onClose, on
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>Edit User</DialogTitle>
+    <Dialog className='edit-dialog' open={open} onClose={onClose} maxWidth="md" fullWidth >
+      <DialogTitle className='dialog-title'>Edit user
+        <IconButton className='close-button' onClick={onClose}>x</IconButton>
+      </DialogTitle>
       <DialogContent>
         <UserDetails
           user={updatedUser}
@@ -61,7 +65,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({ user, open, onClose, on
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose} className='cancel-button'>Cancel</Button>
         <Button onClick={handleUpdate} className='update-button'>Update</Button>
       </DialogActions>
     </Dialog>

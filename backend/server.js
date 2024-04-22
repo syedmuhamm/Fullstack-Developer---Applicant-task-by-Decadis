@@ -29,7 +29,7 @@ const database = mysql.createConnection({
   database: "applicant-task-by-decadis"
 })
 
-// ednpoint for getting all users
+// endpoint for getting all users GET /users
 app.get('/users', (req, res) => {
   const sqlQuery = "SELECT * FROM users";
   database.query(sqlQuery, (error, data) => {
@@ -40,7 +40,23 @@ app.get('/users', (req, res) => {
   });
 });
 
-// endpoint for creating user
+// endpoint for getting a user by ID GET /user/{id}
+app.get('/users/:id', (req, res) => {
+  const userId = req.params.id;
+  const sqlQuery = "SELECT * FROM users WHERE id = ?";
+  database.query(sqlQuery, [userId], (error, data) => {
+    if (error) {
+      console.error('Error fetching user by ID:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    if (data.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    return res.json(data[0]);
+  });
+});
+
+// endpoint for creating user POST /user
 app.post('/users', (req, res) => {
   const { firstName, lastName, email } = req.body;
   const sqlQuery = "INSERT INTO users (firstName, lastName, email) VALUES (?, ?, ?)";
@@ -54,7 +70,7 @@ app.post('/users', (req, res) => {
   });
 });
 
-// endpoint for updating a user
+// endpoint for updating a user PUT /user/{id}
 app.put('/users/:id', (req, res) => {
   const userId = req.params.id;
   const { firstName, lastName, email } = req.body;
@@ -70,7 +86,7 @@ app.put('/users/:id', (req, res) => {
 });
 
 
-// endpoint for deleting a user
+// endpoint for deleting a user DELETE /user/{id}
 app.delete('/users/:id', (req, res) => {
   const userId = req.params.id;
   const sqlQuery = "DELETE FROM users WHERE id = ?";
@@ -84,16 +100,13 @@ app.delete('/users/:id', (req, res) => {
   });
 });
 
-// endpoint for handling action requests
+// endpoint for handling action requests POST /action
 app.post('/action', (req, res) => {
   const { user, action } = req.body;
 
-  // Check if the user is allowed to execute the action
-  // This is a placeholder logic, replace it with your actual permission logic
-  const isAllowed = true; // Example: Assuming all users are allowed to execute any action
+  const isAllowed = true; // assuming all users are allowed to execute any action
 
   if (isAllowed) {
-    // Execute the action here (you can add your logic)
     console.log(`Action '${action}' executed successfully for user '${user.firstName} ${user.lastName}'.`);
     res.status(200).json({ message: `Action '${action}' executed successfully for user '${user.firstName} ${user.lastName}'.` });
   } else {
