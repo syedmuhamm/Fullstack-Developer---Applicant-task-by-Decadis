@@ -25,6 +25,7 @@ Created endpoints for viewing, creating and deleting users.
 
 Implemented logic to faciliate endpoints in frontend.
 
+
 22.04.2024
 
 Code optimizations, i.e introduction of custom hooks
@@ -32,3 +33,10 @@ Code optimizations, i.e introduction of custom hooks
 Code cleaning, i.e removing redundant code.
 
 Introducing comments for better understading of each component. 
+
+Introduced testing for backend CRUD operations with id. 
+
+Performed testing. 
+
+
+Guide to run this app on another machine locally: 
