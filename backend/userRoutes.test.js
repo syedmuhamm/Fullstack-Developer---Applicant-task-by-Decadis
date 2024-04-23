@@ -79,9 +79,6 @@ async function populateDatabaseIfEmpty() {
   }
 }
 
-
-
-
 // Block for user management API tests
 describe('User Management API', () => {
 
@@ -89,8 +86,11 @@ describe('User Management API', () => {
   beforeAll(async () => {
     await populateDatabaseIfEmpty();
   });
-  // Test POST /users endpoint
+
+  // Test POST /users 
   describe('POST /users', () => {
+    let createdUserId; // Variable to store the ID of the created user
+
     it('creates a new user and responds with a success message', async () => {
       // Define the user data to be sent in the request body
       const userData = {
@@ -110,50 +110,74 @@ describe('User Management API', () => {
 
       // Assert the response body contains a success message
       expect(response.body.message).toBe('User created successfully');
+
+      // Store the ID of the created user
+      createdUserId = response.body.userId; // Check if userId is the correct key in the response body
     });
+
+      // Test PUT /users/:id endpoint
+      describe('PUT /users/:id', () => {
+        it('updates an existing user and responds with a success message', async () => {
+          // Ensure the user ID from POST request is available
+          expect(createdUserId).toBeDefined();
+    
+          // Define the updated user data to be sent in the request body
+          const updatedUserData = {
+            firstName: 'UpdatedFirstName',
+            lastName: 'UpdatedLastName',
+            email: 'updated.email@email.com',
+            action: 'go'
+          };
+    
+          // Construct the endpoint URL using the retrieved user ID
+          const endpoint = `/users/${createdUserId}`;
+    
+          // Send a PUT request to update the user
+          const response = await request(app)
+            .put(endpoint)
+            .send(updatedUserData);
+    
+          // Assert the response status is 200 (OK)
+          expect(response.status).toBe(200);
+    
+          // Assert the response body contains a success message
+          expect(response.body.message).toBe('User updated successfully');
+        });
+      });
+
+      // Test DELETE /users/:id endpoint
+      describe('DELETE /users/:id', () => {
+        it('deletes the user created in the POST request and responds with a success message', async () => {
+          // Ensure the user ID from POST request is available
+          expect(createdUserId).toBeDefined();
+    
+          // Construct the endpoint URL using the created user ID
+          const endpoint = `/users/${createdUserId}`;
+    
+          // Send a DELETE request to delete the user
+          const response = await request(app)
+            .delete(endpoint);
+    
+          // Assert the response status is 200 (OK)
+          expect(response.status).toBe(200);
+    
+          // Assert the response body contains a success message
+          expect(response.body.message).toBe('User deleted successfully');
+        });
+      });
   });
 
-  // Test PUT /users/:id endpoint
-  describe('PUT /users/:id', () => {
-    it('updates an existing user and responds with a success message', async () => {
-      // fetch an existing user ID from the database
-      const existingUserId = await fetchExistingUserIdFromDatabase();
-
-      // Define the updated user data to be sent in the request body
-      const updatedUserData = {
-        firstName: 'UpdatedFirstName',
-        lastName: 'UpdatedLastName',
-        email: 'updated.email@email.com',
-        action: 'go'
-      };
-
-      // Construct the endpoint URL using the retrieved user ID
-      const endpoint = `/users/${existingUserId}`;
-
-      // Send a PUT request to update the user
-      const response = await request(app)
-        .put(endpoint)
-        .send(updatedUserData);
-
-      // Assert the response status is 200 (OK)
-      expect(response.status).toBe(200);
-
-      // Assert the response body contains a success message
-      expect(response.body.message).toBe('User updated successfully');
-    });
-  });
-
-  // Test GET /users endpoint
+  // Test GET /users 
   describe('GET /users', () => {
     it('responds with JSON containing all users', async () => {
       // Send a GET request to fetch all users
       const response = await request(app)
         .get('/users');
 
-      // Assert the response status is 200 (OK)
+      // Asserting the response status is 200 (OK)
       expect(response.status).toBe(200);
 
-      // Assert the response body is defined
+      // Asserting the response body is defined
       expect(response.body).toBeDefined();
 
       // Additional assertions
@@ -171,28 +195,7 @@ describe('User Management API', () => {
     });
   });
 
-  // Test DELETE /users/:id endpoint
-  describe('DELETE /users/:id', () => {
-    it('deletes an existing user and responds with a success message', async () => {
-      // fetch an existing user ID from the database
-      const existingUserId = await fetchExistingUserIdFromDatabase();
-
-      // Construct the endpoint URL using the retrieved user ID
-      const endpoint = `/users/${existingUserId}`;
-
-      // Send a DELETE request to delete the user
-      const response = await request(app)
-        .delete(endpoint);
-
-      // Assert the response status is 200 (OK)
-      expect(response.status).toBe(200);
-
-      // Assert the response body contains a success message
-      expect(response.body.message).toBe('User deleted successfully');
-    });
-  });
-
-  // Test GET /users/:id endpoint
+  // Test GET /users/:id 
   describe('GET /users/:id', () => {
     it('responds with JSON containing the user with the specified ID', async () => {
       // fetch an existing user ID from the database

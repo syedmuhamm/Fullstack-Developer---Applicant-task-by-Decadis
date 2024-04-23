@@ -16,7 +16,7 @@ Guide to run this app on another machine locally:
    - Navigate to the `frontend` directory.
    - Run:
      npm install
-   - Start the frontend:
+   - Start the frontend ( ile. decadis-task): 
      npm start
 
 4. Set Up Backend:
@@ -40,11 +40,15 @@ Guide to run this app on another machine locally:
 
 8. Testing:
    - Open another terminal.
-   - Run:
+   - Run ( pne of two):
+     npm test
+     OR
      npx jest userRoutes.test.js
 
 
 Guide completed! Great :)
+
+
 
 Activity while making the app:
 
