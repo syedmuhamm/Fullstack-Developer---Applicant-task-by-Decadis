@@ -36,16 +36,49 @@ const CreateUserDialog: React.FC<CreateUserDialogProps> = ({  open, onClose }) =
         console.error('Form elements not found');
         return;
       }
+  
+      // Removing invalid characters and trimming white spaces
+      const firstName = firstNameInput.value.replace(/[^A-Za-z\s]/g, '').trim();
+      const lastName = lastNameInput.value.replace(/[^A-Za-z\s]/g, '').trim();
+  
+      // Validate if first name contains valid characters
+      if (firstNameInput.value !== firstName) {
+        console.error('First name contains invalid characters');
+        return;
+      }
 
+    // Validate if last name contains valid characters
+      if (lastNameInput.value !== lastName) {
+        console.error('Last name contains invalid characters');
+        return;
+      }
+      // Validate if first name and last name are empty
+      if (!firstName) {
+        console.error('First name cannot be empty');
+        return;
+      }
+  
+      if (!lastName) {
+        console.error('Last name cannot be empty');
+        return;
+      }
+  
       const userData = {
-        firstName: firstNameInput.value,
-        lastName: lastNameInput.value,
+        firstName,
+        lastName,
         email: emailInput.value,
       };
-
+  
+      // Validate email format
+      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.email);
+      if (!isValidEmail) {
+        console.error('Invalid email format');
+        return;
+      }
+  
       // Making sure all fields are filled
-      if (!userData.firstName || !userData.lastName || !userData.email) {
-        console.error('All fields are required');
+      if (!userData.email) {
+        console.error('Email cannot be empty');
         return;
       }
 

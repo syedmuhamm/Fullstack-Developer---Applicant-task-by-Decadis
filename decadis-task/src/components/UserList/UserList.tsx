@@ -5,7 +5,7 @@ import CreateUserDialog from '../Dialogs/CreateUserDialog';
 import DeleteUserDialog from '../Dialogs/DeleteUserDialog';
 import RunActionForUserDialog from '../Dialogs/RunActionDialog';
 import axios from 'axios';
-import useDialog from '../CustomHooks/useDialog';
+import useManageDialogStatus from '../CustomHooks/useManageDialogStatus';
 
 export interface UserListProps {
   id: number;
@@ -26,10 +26,10 @@ const UserList: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<UserListProps | null>(null);
 
   // Integrate custom hook for managing dialog state
-  const createDialog = useDialog();
-  const editDialog = useDialog();
-  const deleteDialog = useDialog();
-  const runActionDialog = useDialog();
+  const createDialog = useManageDialogStatus();
+  const editDialog = useManageDialogStatus();
+  const deleteDialog = useManageDialogStatus();
+  const runActionDialog = useManageDialogStatus();
 
 // Gets user information from the server, updates what is shown on the page, and lets us know with console error.
 const fetchUsers = async () => {
@@ -41,6 +41,7 @@ const fetchUsers = async () => {
     }
   };
 
+  // To render the dom and update users table after a change
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -60,13 +61,14 @@ const fetchUsers = async () => {
     runActionDialog.openDialog(); // Open run action dialog
   };
 
+  // used to close dialogs, and fetch users after closing. 
   const handleCloseModal = () => {
     setSelectedUser(null);
-    createDialog.closeDialog(); // Close create dialog
-    editDialog.closeDialog(); // Close edit dialog
-    deleteDialog.closeDialog(); // Close delete dialog
-    runActionDialog.closeDialog(); // Close run action dialog
-    fetchUsers(); // Refetch users after closing any dialog
+    createDialog.closeDialog();
+    editDialog.closeDialog(); 
+    deleteDialog.closeDialog(); 
+    runActionDialog.closeDialog(); 
+    fetchUsers(); // to update users table on frontend
   };
   
   // Handlers for edit, delete, and run action
@@ -92,7 +94,7 @@ const fetchUsers = async () => {
         <table className='user-table'>
           <thead>
             <tr>
-              <th> NAME</th>
+              <th>NAME</th>
               <th>EMAIL</th>
               <th></th>
             </tr>

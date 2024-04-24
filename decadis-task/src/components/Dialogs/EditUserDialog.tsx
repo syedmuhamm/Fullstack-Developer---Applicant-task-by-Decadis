@@ -9,6 +9,7 @@ import { UserListProps } from '../UserList/UserList'; // Import UserListProps ty
 import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import './AllDialogCommonStyling.scss';
+import { UUID } from 'crypto';
 
 interface EditUserDialogProps {
   user: UserListProps | null;
@@ -26,19 +27,36 @@ interface EditUserDialogProps {
 
 const EditUserDialog: React.FC<EditUserDialogProps> = ({ user, open, onClose, onEdit }) => {
   const [updatedUser, setUpdatedUser] = useState<UserListProps | null>(user);
+  console.log(updatedUser, "updatedUser");
 
   // Update the local state when the user makes changes
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!updatedUser) return;
     const { name, value } = event.target;
-    setUpdatedUser((prevState: UserListProps | null) => ({
-      id: prevState?.id || 0, // defaulting to 0 if it's undefined
-      firstName: prevState?.firstName || '', //defaulting to an empty string if it's undefined
-      lastName: prevState?.lastName || '',
-      email: prevState?.email || '', 
-      [name]: value,
-    }));
+    let newValue = value;
+    if (name === 'firstName' || name === 'lastName') {
+      // Restrict to only small and capital letters
+      newValue = value.replace(/[^A-Za-z]/g, '');
+      console.error('Please only use small and capital letters.');
+    } else if (name === 'email') {
+      // Validate email format
+      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      if (!isValidEmail) {
+        // Optionally, we can provide feedback to the user about the invalid email format
+        // For example, set an error state or display a message, I am planning to use toasts here, but later
+        console.error('Invalid email format');
+        return;
+      }
+    }
+    setUpdatedUser((prevState: UserListProps | null) => {
+      if (!prevState) return null; // return null if prevState is null
+      return {
+        ...prevState,
+        [name]: newValue,
+      };
+    });
   };
+  
 
   // Handler for update action
   const handleUpdate = async () => {
