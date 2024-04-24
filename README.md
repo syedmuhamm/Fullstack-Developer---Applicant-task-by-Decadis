@@ -90,3 +90,12 @@ Introduced testing for backend CRUD operations with id.
 Performed testing. 
 
 
+23.04.2024
+
+Improved unit testing, so that only delelte the user which is created for testing. 
+
+Introduced checks for input fields in edit and create forms, for security and data consistency. 
+
+24.04.2024
+
+Improved unit testing. Updated textfields for erros and other checks. Improved code quality.

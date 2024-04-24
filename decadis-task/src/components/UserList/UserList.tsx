@@ -14,6 +14,10 @@ export interface UserListProps {
   email: string;
 }
 
+export interface ErrorProps {
+  errors: { label: string, message: string }[];
+}
+
 /**
  * Component: UserList
  * Description: Renders a list of users with options for editing, deleting, and running actions. 
@@ -48,17 +52,17 @@ const fetchUsers = async () => {
 
   const handleEditButtonClick = (user: UserListProps) => {
     setSelectedUser(user);
-    editDialog.openDialog(); // Open edit dialog
+    editDialog.openDialog();
   };
   
   const handleDeleteButtonClick = (user: UserListProps) => {
     setSelectedUser(user);
-    deleteDialog.openDialog(); // Open delete dialog
+    deleteDialog.openDialog();
   };
 
   const handleRunActionButtonClick = (user: UserListProps) => {
     setSelectedUser(user);
-    runActionDialog.openDialog(); // Open run action dialog
+    runActionDialog.openDialog();
   };
 
   // used to close dialogs, and fetch users after closing. 
@@ -68,7 +72,7 @@ const fetchUsers = async () => {
     editDialog.closeDialog(); 
     deleteDialog.closeDialog(); 
     runActionDialog.closeDialog(); 
-    fetchUsers(); // to update users table on frontend
+    fetchUsers();
   };
   
   // Handlers for edit, delete, and run action

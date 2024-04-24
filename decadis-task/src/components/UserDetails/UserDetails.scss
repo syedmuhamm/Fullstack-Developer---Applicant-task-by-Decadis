@@ -17,16 +17,15 @@
     align-items: center;
     justify-content: center;
     flex: 1;
-
-    border: 1px solid #ccc; /* Border for the container */
+    border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 14px;
     
     label {
       padding: 3px 10px;
       background-color: #E2E8F0;
       flex: 1;
-      text-align: center; /* Center the label text */
-
+      text-align: center;
     }
     
     input {
@@ -37,6 +36,18 @@
       border-radius: 4px;
       border: none;
       outline: none;
+    }
+  }
+
+  .error-message{
+   color: red; 
+   margin-bottom: 5px;
+  }
+  .error{
+    border: 1px solid red;
+
+    label{
+      padding: 14px 10px;
     }
   }
 
@@ -52,19 +63,7 @@
     }
   }
 
-  .buttons {
-    margin-top: 20px;
-    button {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-right: 10px;
-      &:hover {
-        background-color: #0056b3;
-      }
-    }
+  .MuiTextField-root {
+    flex: 4;
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -8,6 +8,10 @@ import UserDetails from '../UserDetails/UserDetails';
 import axios from 'axios';
 import './AllDialogCommonStyling.scss';
 import { IconButton } from '@mui/material';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ErrorProps } from '../UserList/UserList';
+import { clearError } from '../Utils/formUtils';
 
 interface CreateUserDialogProps {
   open: boolean;
@@ -22,7 +26,8 @@ interface CreateUserDialogProps {
  * It uses Material-UI components for dialog layout and axios for making HTTP requests.
  */
 
-const CreateUserDialog: React.FC<CreateUserDialogProps> = ({  open, onClose }) => {
+const CreateUserDialog: React.FC<CreateUserDialogProps> = ({ open, onClose }) => {
+  const [error, setError] = useState<ErrorProps>({ errors: [] });
 
   // Handler for create action
   const handleCreateAction = async () => {
@@ -36,59 +41,54 @@ const CreateUserDialog: React.FC<CreateUserDialogProps> = ({  open, onClose }) =
         console.error('Form elements not found');
         return;
       }
-  
+
       // Removing invalid characters and trimming white spaces
-      const firstName = firstNameInput.value.replace(/[^A-Za-z\s]/g, '').trim();
-      const lastName = lastNameInput.value.replace(/[^A-Za-z\s]/g, '').trim();
-  
+      const firstName = firstNameInput.value.trim();
+      const lastName = lastNameInput.value.trim();
+
+      // Collect all validation errors
+      const errors = [];
+
       // Validate if first name contains valid characters
-      if (firstNameInput.value !== firstName) {
-        console.error('First name contains invalid characters');
+      if (!/^[a-zA-Z\s]+$/.test(firstName) || !firstName ) {
+        errors.push({ label: 'firstName', message: 'Please enter valid first name' });
+      }
+
+      // Validate if last name contains valid characters
+      if (!/^[a-zA-Z\s]+$/.test(lastName) || !lastName) {
+        errors.push({ label: 'lastName', message: 'Please enter valid last name' });
+      }
+
+      // Validate email format
+      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
+      if (!isValidEmail) {
+        errors.push({ label: 'email', message: 'Please enter valid email address' });
+      }
+
+      // Update state with all errors
+      setError({ errors });
+
+      // If there are errors, stop further processing
+      if (errors.length > 0) {
         return;
       }
 
-    // Validate if last name contains valid characters
-      if (lastNameInput.value !== lastName) {
-        console.error('Last name contains invalid characters');
-        return;
-      }
-      // Validate if first name and last name are empty
-      if (!firstName) {
-        console.error('First name cannot be empty');
-        return;
-      }
-  
-      if (!lastName) {
-        console.error('Last name cannot be empty');
-        return;
-      }
-  
       const userData = {
         firstName,
         lastName,
         email: emailInput.value,
       };
-  
-      // Validate email format
-      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.email);
-      if (!isValidEmail) {
-        console.error('Invalid email format');
-        return;
-      }
-  
-      // Making sure all fields are filled
-      if (!userData.email) {
-        console.error('Email cannot be empty');
-        return;
-      }
 
       // Making the POST request to create the user
       const response = await axios.post('http://localhost:5000/users', userData);
       console.log('User created:', response.data);
+      toast.success("User created successfully.", { autoClose: 1000 })
 
       onClose(); // Close the dialog after creating
+      setError({ errors: [] });
     } catch (error) {
       console.error('Error creating user:', error);
+      toast.error("Error creating a user", { autoClose: 1000 });
     }
   };
 
@@ -98,7 +98,7 @@ const CreateUserDialog: React.FC<CreateUserDialogProps> = ({  open, onClose }) =
       <IconButton className='close-button' onClick={onClose}>x</IconButton>
       </DialogTitle>
       <DialogContent>
-        <UserDetails />
+        <UserDetails error={error} clearError={(label: string) => clearError(setError, label)} />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} className='cancel-button'>Cancel</Button>

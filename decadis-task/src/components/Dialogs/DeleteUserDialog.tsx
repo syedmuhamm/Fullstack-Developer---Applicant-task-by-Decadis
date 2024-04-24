@@ -6,6 +6,8 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { UserListProps } from '../UserList/UserList';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface DeleteUserDialogProps {
   user: UserListProps | null;
@@ -28,6 +30,7 @@ const DeleteUserDialog: React.FC<DeleteUserDialogProps> = ({ user, open, onClose
       if (!user) return;
       const response = await axios.delete(`http://localhost:5000/users/${user.id}`);
       console.log(response.data);
+      toast.success("User deleted successfully", { autoClose: 1000 });
       onDelete(); // callback, will help rerender user table after deleting
       onClose(); // Close the dialog after deleting
     } catch (error) {
@@ -36,16 +39,18 @@ const DeleteUserDialog: React.FC<DeleteUserDialogProps> = ({ user, open, onClose
   };
 
   return (
-    <Dialog open={open} maxWidth="md" onClose={onClose} fullWidth className='delete-dialog'>
-      <DialogTitle className='dialog-title'>Delete User</DialogTitle>
-      <DialogContent>
-        <p>Do you really want to delete user {user?.firstName} {user?.lastName}?</p>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} className='cancel-button'>Cancel</Button>
-        <Button onClick={handleDeleteAction} className='delete-button'>Delete</Button>
-      </DialogActions>
-    </Dialog>
+    <>
+      <Dialog open={open} maxWidth="md" onClose={onClose} fullWidth className='delete-dialog'>
+        <DialogTitle className='dialog-title'>Delete User</DialogTitle>
+        <DialogContent>
+          <p>Do you really want to delete user {user?.firstName} {user?.lastName}?</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose} className='cancel-button'>Cancel</Button>
+          <Button onClick={handleDeleteAction} className='delete-button'>Delete</Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 

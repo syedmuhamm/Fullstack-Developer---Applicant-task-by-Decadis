@@ -25,6 +25,13 @@
         color: white;
     }
 
+    .update-button:disabled,
+    .create-button:disabled,
+    .run-action-run-button:disabled,
+    .delete-button:disabled {
+        background-color: #b2b2b2;
+        color: rgba(0, 0, 0, 0.6);
+    }
     .cancel-button {
         color: black;
     }

@@ -59,13 +59,14 @@ app.get('/users/:id', (req, res) => {
 // endpoint for creating user POST /users
 app.post('/users', (req, res) => {
   const { firstName, lastName, email } = req.body;
+  //will put a check here
   const sqlQuery = "INSERT INTO users (firstName, lastName, email) VALUES (?, ?, ?)";
   database.query(sqlQuery, [firstName, lastName, email], (error, result) => {
     if (error) {
       console.error('Error creating user:', error);
       return res.status(500).json({ error: 'Internal server error' });
     }
-    const userId = result.insertId; // Extract the user ID from the result
+    const userId = result.insertId; 
     console.log('User created successfully');
     return res.status(201).json({ message: 'User created successfully', userId: userId });
   });

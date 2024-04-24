@@ -1,15 +1,15 @@
 .user-list {
-    margin-top: 20px;
-    width: 804px;
-    height: auto;
-  
+  margin-top: 20px;
+  width: 804px;
+  height: auto;
+
   .user-list-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 0 0 20px 20px;
   }
-  
+
   .create-button {
     background-color: #319795;
     font-size: large;
@@ -22,38 +22,46 @@
     cursor: pointer;
   }
 
-  .table-wrapper {
-    border: 1px solid #ddd; 
-    border-radius: 16px; 
-    overflow: hidden; 
-  }
-  
   .create-button:hover {
     background-color: #0056b3;
   }
-  
-  .dialog-actions {
-    .update-button {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-right: 10px;
-  
-      &:hover {
-        background-color: #0056b3;
-      }
-    }
+
+  .table-wrapper {
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    overflow: hidden;
   }
-  
+
+  .dialog-actions .update-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  .dialog-actions .update-button:hover {
+    background-color: #0056b3;
+  }
+
   table {
     width: 100%;
-    border-collapse: collapse;
+    font-size: 14px;
+    
+    td:last-child{
+      padding-right: 14px;
+    }
+  }
+  tbody tr:last-child{
+    td{
+      border-bottom: none;
+    }
+  }
 
-  
-  th, td {
+  th,
+  td {
     padding: 8px;
     border-bottom: 1px solid #ddd;
     margin: 0px;
@@ -64,24 +72,17 @@
     padding-left: 20px;
   }
 
-  .user-table td:not(:last-child) {
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
-    margin: 0px;
-  }
-  
   th {
     text-align: left;
   }
 
-  .action-buttons{
+  .action-buttons {
     display: flex;
     justify-content: flex-end;
-    margin-right: 10px;
   }
-  
+
   .edit-button {
-    background-color: #3182CE; 
+    background-color: #3182CE;
     width: 51px;
     height: 32px;
     color: white;
@@ -89,15 +90,15 @@
     padding: 5px 10px;
     border-radius: 6px;
     cursor: pointer;
-    margin-right:8px;
+    margin-right: 8px;
     text-decoration: none;
-    display: inline-block; 
+    display: inline-block;
   }
-  
+
   .edit-button:hover {
-    background-color: #2d73b4; 
+    background-color: #2d73b4;
   }
-  
+
   .delete-button {
     background-color: #CE3131;
     color: white;
@@ -107,11 +108,11 @@
     margin-right: 8px;
     cursor: pointer;
   }
-  
+
   .delete-button:hover {
-    background-color: #a82929; 
+    background-color: #a82929;
   }
-  
+
   .run-action-button {
     background-color: #3B9D18;
     width: 96px;
@@ -124,7 +125,6 @@
   }
 
   .run-action-button:hover {
-    background-color: #2e7a12; 
+    background-color: #2e7a12;
   }
-}
 }

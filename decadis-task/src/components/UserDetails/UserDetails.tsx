@@ -1,5 +1,7 @@
 import React from 'react';
 import './UserDetails.scss';
+import { TextField } from '@mui/material';
+import { ErrorProps } from '../UserList/UserList';
 
 interface UserDetailsProps {
   user?: {
@@ -10,61 +12,90 @@ interface UserDetailsProps {
   } | null;
   editable?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  error: ErrorProps;
+  clearError: (label: string) => void;
 }
 
-/**
- * Component: UserDetails
- * Description: Displays user details with options for editing. 
- * Allows toggling of checkboxes for various user actions. 
- * 
- * Utilizes custom styling with UserDetails.scss.
- */
-
-const UserDetails: React.FC<UserDetailsProps> = ({ user, editable = true, onChange }) => {
-  // Handle checkbox change
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (onChange) {
-      onChange(event);
-    }
+const UserDetails: React.FC<UserDetailsProps> = ({ user, editable = true, onChange, error, clearError }) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = event.target;
+    onChange && onChange(event);
+    // Clear error when user starts typing
+    clearError(name);
   };
 
   return (
     <div className="user-details-dialog">
       <div className="header"></div>
-      <div className="form-group">
-      <div className="form-field"></div>
+      <div className={`form-group ${error.errors.some(err => err.label === "firstName") ? "error" : "" }`}>
         <label>Firstname</label>
-        <input className='text-input' type="text" id='firstName' name='firstName' defaultValue={user?.firstName} onChange={onChange} />
+        <TextField 
+          error={error.errors.some(err => err.label === "firstName")}
+          id="firstName"
+          name="firstName"
+          defaultValue={user?.firstName}
+          onChange={handleInputChange}
+          disabled={!editable}
+          variant="outlined"
+          helperText={error.errors.find(err => err.label === "firstName")?.message}
+          sx={{
+            "& fieldset": { border: 'none' },
+          }}
+        />
       </div>
-      <div className="form-group">
+      <div className={`form-group ${error.errors.some(err => err.label === "lastName") ? "error" : "" }`}>
         <label>Lastname</label>
-        <input type="text" id='lastName' name='lastName' defaultValue={user?.lastName} onChange={onChange} />
+        <TextField 
+          error={error.errors.some(err => err.label === "lastName")}
+          id="lastName"
+          name="lastName"
+          defaultValue={user?.lastName}
+          onChange={handleInputChange}
+          disabled={!editable}
+          variant="outlined"
+          helperText={error.errors.find(err => err.label === "lastName")?.message}
+          sx={{
+            "& fieldset": { border: 'none' },
+          }}
+        />
       </div>
-      <div className="form-group">
+      <div className={`form-group ${error.errors.some(err => err.label === "email") ? "error" : "" }`}>
         <label>Email</label>
-        <input type="text" id='email' name='email' defaultValue={user?.email} onChange={onChange} />
+        <TextField 
+          error={error.errors.some(err => err.label === "email")}
+          id="email"
+          name="email"
+          defaultValue={user?.email}
+          onChange={handleInputChange}
+          disabled={!editable}
+          variant="outlined"
+          helperText={error.errors.find(err => err.label === "email")?.message}
+          sx={{
+            "& fieldset": { border: 'none' },
+          }}
+        />
       </div>
       {editable && (
         <div className="actions">
           <h3>Actions</h3>
           <div>
             <label>
-              <input type="checkbox" disabled={!editable} onChange={handleCheckboxChange} /> Create item
+              <input type="checkbox" disabled={!editable} onChange={handleInputChange} /> Create item
             </label>
           </div>
           <div>
             <label>
-              <input type="checkbox" disabled={!editable} onChange={handleCheckboxChange} /> Delete item
+              <input type="checkbox" disabled={!editable} onChange={handleInputChange} /> Delete item
             </label>
           </div>
           <div>
             <label>
-              <input type="checkbox" onChange={handleCheckboxChange} /> View item
+              <input type="checkbox" onChange={handleInputChange} /> View item
             </label>
           </div>
           <div>
             <label>
-              <input type="checkbox" onChange={handleCheckboxChange} /> Move item
+              <input type="checkbox" onChange={handleInputChange} /> Move item
             </label>
           </div>
         </div>
