@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -29,6 +29,12 @@ interface CreateUserDialogProps {
 const CreateUserDialog: React.FC<CreateUserDialogProps> = ({ open, onClose }) => {
   const [error, setError] = useState<ErrorProps>({ errors: [] });
 
+   // Reset error state when dialog is opened
+   useEffect(() => {
+    if (open) {
+      setError({ errors: [] });
+    }
+  }, [open]);
   // Handler for create action
   const handleCreateAction = async () => {
     try {

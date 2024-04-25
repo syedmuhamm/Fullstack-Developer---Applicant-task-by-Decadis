@@ -34,15 +34,22 @@ app.get('/users', (req, res) => {
   const sqlQuery = "SELECT * FROM users";
   database.query(sqlQuery, (error, data) => {
     if(error) {
+      console.error('Error fetching all users:', error);
       return res.status(500).json({ error: 'Internal server error' });
     }
     return res.json(data);
   });
 });
 
-// endpoint for getting a user by ID GET /user/{id}
+// endpoint for getting a user by ID GET /users/{id}
 app.get('/users/:id', (req, res) => {
   const userId = req.params.id;
+
+  // Validate if userId is a positive integer
+  if (!/^\d+$/.test(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID' });
+  }
+
   const sqlQuery = "SELECT * FROM users WHERE id = ?";
   database.query(sqlQuery, [userId], (error, data) => {
     if (error) {
@@ -59,7 +66,18 @@ app.get('/users/:id', (req, res) => {
 // endpoint for creating user POST /users
 app.post('/users', (req, res) => {
   const { firstName, lastName, email } = req.body;
-  //will put a check here
+
+  // Check if any required field is empty
+  if (!firstName || !lastName || !email) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Invalid email format' });
+  }
+
   const sqlQuery = "INSERT INTO users (firstName, lastName, email) VALUES (?, ?, ?)";
   database.query(sqlQuery, [firstName, lastName, email], (error, result) => {
     if (error) {
@@ -72,10 +90,24 @@ app.post('/users', (req, res) => {
   });
 });
 
-// endpoint for updating a user PUT /user/{id}
+// endpoint for updating a user PUT /users/{id}
 app.put('/users/:id', (req, res) => {
   const userId = req.params.id;
   const { firstName, lastName, email } = req.body;
+
+  // Check if any required field is empty
+  if (!firstName && !lastName && !email) {
+    return res.status(400).json({ error: 'At least one field is required for update' });
+  }
+
+  // Validate email format if provided
+  if (email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: 'Invalid email format' });
+    }
+  }
+
   const sqlQuery = "UPDATE users SET firstName = ?, lastName = ?, email = ? WHERE id = ?";
   database.query(sqlQuery, [firstName, lastName, email, userId], (error, result) => {
     if (error) {
@@ -87,15 +119,18 @@ app.put('/users/:id', (req, res) => {
   });
 });
 
-
-// endpoint for deleting a user DELETE /user/{id}
+// endpoint for deleting a user DELETE /users/{id}
 app.delete('/users/:id', (req, res) => {
   const userId = req.params.id;
+
   const sqlQuery = "DELETE FROM users WHERE id = ?";
   database.query(sqlQuery, [userId], (error, result) => {
     if (error) {
       console.error('Error deleting user:', error);
       return res.status(500).json({ error: 'Internal server error' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'User not found' });
     }
     console.log('User deleted successfully');
     return res.status(200).json({ message: 'User deleted successfully' });

@@ -24,6 +24,11 @@ const UserDetails: React.FC<UserDetailsProps> = ({ user, editable = true, onChan
     clearError(name);
   };
 
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, checkboxName: string) => {
+    const isChecked = event.target.checked;
+    console.log(`Checkbox ${checkboxName} status: ${isChecked}`);
+  };
+
   return (
     <div className="user-details-dialog">
       <div className="header"></div>
@@ -80,22 +85,22 @@ const UserDetails: React.FC<UserDetailsProps> = ({ user, editable = true, onChan
           <h3>Actions</h3>
           <div>
             <label>
-              <input type="checkbox" disabled={!editable} onChange={handleInputChange} /> Create item
+              <input type="checkbox" disabled={!editable} onChange={(e) => handleCheckboxChange(e, 'Create item')} /> Create item
             </label>
           </div>
           <div>
             <label>
-              <input type="checkbox" disabled={!editable} onChange={handleInputChange} /> Delete item
+              <input type="checkbox" disabled={!editable} onChange={(e) => handleCheckboxChange(e, 'Delete item')} /> Delete item
             </label>
           </div>
           <div>
             <label>
-              <input type="checkbox" onChange={handleInputChange} /> View item
+              <input type="checkbox" onChange={(e) => handleCheckboxChange(e, 'View item')} /> View item
             </label>
           </div>
           <div>
             <label>
-              <input type="checkbox" onChange={handleInputChange} /> Move item
+              <input type="checkbox" onChange={(e) => handleCheckboxChange(e, 'Move item')} /> Move item
             </label>
           </div>
         </div>

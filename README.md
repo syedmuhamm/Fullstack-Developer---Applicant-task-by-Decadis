@@ -99,3 +99,7 @@ Introduced checks for input fields in edit and create forms, for security and da
 24.04.2024
 
 Improved unit testing. Updated textfields for erros and other checks. Improved code quality.
+
+25.04.2024
+
+Fix bug in error, in frontend. Improved unit tests for backend. 
