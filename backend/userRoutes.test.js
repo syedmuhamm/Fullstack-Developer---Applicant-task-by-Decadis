@@ -84,7 +84,7 @@ describe('User Management API', () => {
       expect(response.body.length).toBe(0);
 
       // and then make another function that create another user for testing, as this user should be
-      // deleted by delete test later. 
+      // deleted by delete test later, the same function can be used in POST too. 
     });
   });
 

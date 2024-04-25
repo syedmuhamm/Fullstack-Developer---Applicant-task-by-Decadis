@@ -32,7 +32,7 @@ const DeleteUserDialog: React.FC<DeleteUserDialogProps> = ({ user, open, onClose
       console.log(response.data);
       toast.success("User deleted successfully", { autoClose: 1000 });
       onDelete(); // callback, will help rerender user table after deleting
-      onClose(); // Close the dialog after deleting
+      onClose();
     } catch (error) {
       console.error('Error deleting user:', error);
     }

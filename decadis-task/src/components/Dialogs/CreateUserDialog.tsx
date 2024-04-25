@@ -90,7 +90,7 @@ const CreateUserDialog: React.FC<CreateUserDialogProps> = ({ open, onClose }) =>
       console.log('User created:', response.data);
       toast.success("User created successfully.", { autoClose: 1000 })
 
-      onClose(); // Close the dialog after creating
+      onClose();
       setError({ errors: [] });
     } catch (error) {
       console.error('Error creating user:', error);
